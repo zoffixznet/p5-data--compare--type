@@ -36,6 +36,15 @@ is $v->get_error->[1]{message},INVALID('INT');
 is $v->get_error->[1]{position},'$param->[2]';
 ok !$v->get_error->[2];
 
+
+# hash in array
+
+ok $v->check([{id => 111 },{id=> 1222},{id=> 333}] , [{id =>"INT"}]);
+ok !$v->check([{id => "1aaa1" },{id=>"aaa1222" },{id=> "333"}] , [{id =>"INT"}]);
+
+# this is Specification
+ok $v->check([] , [{id =>"INT"}]);
+
 # hash ref 
 ok $v->check({ hoge => 'fuga'},{hoge => "ASCII"});
 ok $v->check({ hoge => 111},{hoge => "ASCII"});

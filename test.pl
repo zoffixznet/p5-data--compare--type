@@ -5,5 +5,5 @@ use lib './lib';
 use Data::Compare::Type;
 
 my $validate = Data::Compare::Type->new();
-$validate->check([111] , ["ASCII"]);
-
+$validate->check([] , [{id =>"INT"}]);
+say $validate->has_error;
