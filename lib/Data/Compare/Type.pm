@@ -74,14 +74,32 @@ sub _check{
             return;
         }elsif(ref $rule eq 'ARRAY'){
             for(@$rule){
-                if (ref $_){
+                if (ref $_ eq 'ARRAY'){
+                    my ($type,$min,$max) = @$_;
+                    
+                    $max = $min unless defined $max;
+
+                    if($max < $min ){
+                        ($max , $min) = ($min , $max);
+                    }
+                    
+                    if($type eq 'LENGTH' or $type eq 'BETWEEN'){
+                        no strict;
+                        unless(&{"Data::Compare::Type::Regex::$type"}($param,$min,$max)){
+                            $self->_set_error(INVALID($rule), $position , $name ,$param);
+                        }
+                    }else{
+                        die;
+                    }
+                }elsif (ref $_){
                     $self->_set_error(HASHREF, $position , $name,'ARRAY');
                     die;
                     return;
-                }
-                no strict;
-                unless(&{"Data::Compare::Type::Regex::$_"}($param)){
-                    $self->_set_error(INVALID($_), $position , $name , $param);
+                }else{
+                    no strict;
+                    unless(&{"Data::Compare::Type::Regex::$_"}($param)){
+                        $self->_set_error(INVALID($_), $position , $name , $param);
+                    }
                 }
             }
         }else{

@@ -9,7 +9,7 @@ our $VERSION = '0.01';
 
 sub NOT_BLANK{
     my $s = shift;
-    if ($s eq '0'){
+    if (defined $s){
         return 1;
     }
 
@@ -74,6 +74,25 @@ sub TINYINT{
     my $s = shift;
     return 1 unless $s;
     return ($s eq "0" or $s eq "1");
+}
+
+sub LENGTH{
+    my ($s , $min , $max) = @_;
+    my $len = length($s);
+    if($len >= $min and $len <= $max){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+sub BETWEEN{
+    my ($s , $min , $max) = @_;
+    if($s >= $min and $s <= $max){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 sub URL{
