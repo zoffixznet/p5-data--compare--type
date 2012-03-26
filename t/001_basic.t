@@ -38,9 +38,16 @@ ok !$v->get_error->[2];
 
 
 # hash in array
-
-ok $v->check([{id => 111 },{id=> 1222},{id=> 333}] , [{id =>"INT"}]);
+ok $v->check([{id => 111,id2=> 22.2 },{id=> 1222 , id2=> 1.11},{id=> 333 , id2=> 44.44}] , [{id =>"INT",id2 => "DECIMAL"}]);
 ok !$v->check([{id => "1aaa1" },{id=>"aaa1222" },{id=> "333"}] , [{id =>"INT"}]);
+
+ok $v->check([
+    {
+        id => 111,id2=> [{id=> 22}]
+    }] , 
+    [{
+        id =>"INT",id2 => [{id => ["INT"]}]
+    }]);
 
 # this is Specification
 ok $v->check([] , [{id =>"INT"}]);
