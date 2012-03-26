@@ -47,7 +47,7 @@ sub _check{
             }elsif($ref eq 'HASH'){
                 $self->_set_error(ARRAYREF, $position , $name);
             }else{
-                croak('declear other types : HASH or ARRAY');
+                croak('declareother types : HASH or ARRAY');
             }
         }else{
             if($ref eq 'HASH'){
@@ -65,7 +65,7 @@ sub _check{
                     $self->_check($param->[$_] || "" , $rule->[0] , $position . "->[$_]" , $name);
                 }
             }else{
-                croak($ref . ':declear other types : HASH or ARRAY');
+                croak($ref . ':declare other types : HASH or ARRAY');
             }
         }
     }else{
