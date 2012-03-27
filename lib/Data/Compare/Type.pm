@@ -93,7 +93,6 @@ sub _check{
                     }
                 }elsif (ref $_){
                     $self->_set_error(HASHREF, $position , $name,'ARRAY');
-                    die;
                     return;
                 }else{
                     no strict;

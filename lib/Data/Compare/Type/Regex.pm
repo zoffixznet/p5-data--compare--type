@@ -9,7 +9,7 @@ our $VERSION = '0.01';
 
 sub NOT_BLANK{
     my $s = shift;
-    if (defined $s){
+    if (defined $s and length($s) > 0 ){
         return 1;
     }
 

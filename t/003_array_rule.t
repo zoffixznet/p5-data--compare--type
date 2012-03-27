@@ -51,6 +51,18 @@ is $v->get_error->[0]{position},'$param->{hoge}';
 ok $v->check({hoge => 'fuga' , fuga => "fuga" },{hoge => ["NOT_BLANK","ASCII"] , fuga=> ["NOT_BLANK","ASCII"]});
 ok $v->check({hoge => "fuga" , fuga => "fuga" },{hoge => ["NOT_BLANK","ASCII"] , fuga => ["NOT_BLANK","ASCII"]});
 ok $v->check({hoge => 111 , fuga => "fuga"},{hoge => ["NOT_BLANK","INT"] , fuga => ["NOT_BLANK","ASCII"]});
+ok !$v->check({hoge => "" , fuga => "fuga"},{hoge => ["NOT_BLANK","INT"] , fuga => ["NOT_BLANK","ASCII"]});
+
+ok $v->check({hoge => {fuga => "fuga"}},{hoge => {fuga => ["NOT_BLANK","ASCII"]}});
+ok !$v->check({hoge => {fuga => ""}},{hoge => {fuga => ["NOT_BLANK","ASCII"]}});
+ok $v->check({hoge => [{fuga => "fuga"}]},{hoge => [{fuga => ["NOT_BLANK","ASCII"]}]});
+ok !$v->check({hoge => [{fuga => ""}]},{hoge => [{fuga => ["NOT_BLANK","ASCII"]}]});
+
+
+ok !$v->check({hoge => [{fuga => ""}]},{hoge => {fuga => ["NOT_BLANK","ASCII"]}});
+ok !$v->check({hoge => "fuga"},{hoge => [{fuga => ["NOT_BLANK","ASCII"]}]});
+ok !$v->check({hoge => [{fuga => ""}]},["NOT_BLANK","ASCII"]);
+
 
 # hash ref multivalue exception
 ok !$v->check({hoge => "fuga" , fuga => "fuga" },{hoge => ["NOT_BLANK","INT"] , fuga => ["NOT_BLANK","INT"]});
