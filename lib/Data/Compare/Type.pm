@@ -89,7 +89,7 @@ sub _check{
                             $self->_set_error(INVALID($rule), $position , $name ,$param);
                         }
                     }else{
-                        die;
+                        croak "Not declare type:" . $type;
                     }
                 }elsif (ref $_){
                     $self->_set_error(HASHREF, $position , $name,'ARRAY');
