@@ -95,4 +95,18 @@ is $v->get_error->[2]{position},'$param->{hoge}->[2]';
 ok !$v->check({hoge =>  {hoge => "hpge"} , fuga => "fuga" },{hoge => {hoge => "INT"}, fuga=> "ASCII"});
 ok !$v->check({hoge =>  {hoge => 111} , fuga => "fuga" },{hoge => {hoge => "INT"}, fuga=> "INT"});
 
+# length exception
+ok !$v->check({fuga => "fuga" },{fuga=> [["LENGTH" , 5 , 10]]});
+ok $v->has_error;
+is $v->get_error->[0]{message},'LENGTH IS WRONG';
+is $v->get_error->[0]{min_value},5;
+is $v->get_error->[0]{max_value},10;
+
+# between exception
+ok !$v->check({fuga => "3" },{fuga=> [["BETWEEN" , 5 , 10]]});
+ok $v->has_error;
+is $v->get_error->[0]{message},'BETWEEN IS WRONG';
+is $v->get_error->[0]{min_value},5;
+is $v->get_error->[0]{max_value},10;
+
 done_testing;

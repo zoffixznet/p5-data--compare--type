@@ -20,5 +20,6 @@ ok $v->check({hoge =>  "hoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 4]]})
 ok !$v->check({hoge =>  "hoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 3]]});
 ok !$v->check({hoge =>  "hoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 5]]});
 ok $v->check({},{hoge=> ["ASCII", ['LENGTH' , 5]]});
+ok !$v->check({},{hoge=> ["ASCII", 'NOT_BLANK', ['LENGTH' , 5]]});
 
 done_testing;

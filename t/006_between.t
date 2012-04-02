@@ -23,5 +23,6 @@ ok $v->check({hoge =>  4  },{hoge=> ["INT","NOT_BLANK" , ['BETWEEN' , 4]]});
 ok !$v->check({hoge => 4  },{hoge=> ["INT","NOT_BLANK" , ['BETWEEN' , 3]]});
 ok !$v->check({hoge => 4  },{hoge=> ["INT","NOT_BLANK" , ['BETWEEN' , 5]]});
 ok $v->check({},{hoge=> ["INT", ['BETWEEN' , 5]]});
+ok !$v->check({},{hoge=> ["INT", 'NOT_BLANK',['BETWEEN' , 5]]});
 
 done_testing;

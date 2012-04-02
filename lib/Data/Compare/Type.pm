@@ -16,6 +16,9 @@ sub ARRAYREF {'excepted array ref'};
 sub REF {'excepted ref'};
 sub INVALID{'excepted ' . $_[0]};
 
+sub LENGTH_ERROR{'LENGTH IS WRONG'};
+sub BETWEEN_ERROR{'BETWEEN IS WRONG'};
+
 sub new{
     bless {} , $_[0];
 }
@@ -86,7 +89,13 @@ sub _check{
                     if($type eq 'LENGTH' or $type eq 'BETWEEN'){
                         no strict;
                         unless(&{"Data::Compare::Type::Regex::$type"}($param,$min,$max)){
-                            $self->_set_error(INVALID($rule), $position , $name ,$param);
+                            my $message;
+                            if($type eq 'LENGTH'){
+                                $message = LENGTH_ERROR;
+                            }else{
+                                $message = BETWEEN_ERROR;
+                            }
+                            $self->_set_error($message, $position , $name , $error , $min , $max);
                         }
                     }else{
                         croak "Not declare type:" . $type;
@@ -115,12 +124,13 @@ sub has_error{
 }
 
 sub _set_error{
-    my ($self,$message,$position,$param_name , $error) = @_;
+    my ($self,$message,$position,$param_name,$error,$min,$max) = @_;
     $self->{error} = 1;
     $self->{error_object} ||= [];
     push @{$self->{error_object}} , {
         message => $message ,position =>  $position , 
-        param_name => $param_name , error => $error
+        param_name => $param_name , error => $error,
+        min_value => $min , max_value => $max ,
     };
 }
 
