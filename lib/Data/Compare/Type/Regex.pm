@@ -79,7 +79,7 @@ sub TINYINT{
 sub LENGTH{
     my ($s , $min , $max) = @_;
     my $len = length($s);
-    if($len >= $min and $len <= $max){
+    if($len == 0 or $len >= $min and $len <= $max){
         return 1;
     }else{
         return 0;
