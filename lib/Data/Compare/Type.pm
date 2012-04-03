@@ -95,25 +95,25 @@ sub _check{
                             }else{
                                 $message = BETWEEN_ERROR;
                             }
-                            $self->_set_error($message, $position , $name , $error , $min , $max);
+                            $self->_set_error($message, $position , $name , $type, $min , $max);
                         }
                     }else{
                         croak "Not declare type:" . $type;
                     }
                 }elsif (ref $_){
-                    $self->_set_error(HASHREF, $position , $name,'ARRAY');
+                    $self->_set_error(HASHREF, $position , $name ,'ARRAY');
                     return;
                 }else{
                     no strict;
                     unless(&{"Data::Compare::Type::Regex::$_"}($param)){
-                        $self->_set_error(INVALID($_), $position , $name , $param);
+                        $self->_set_error(INVALID($_), $position , $name , $_);
                     }
                 }
             }
         }else{
             no strict;
             unless(&{"Data::Compare::Type::Regex::$rule"}($param)){
-                $self->_set_error(INVALID($rule), $position , $name ,$param);
+                $self->_set_error(INVALID($rule), $position , $param , $rule);
             }
         }
     }
