@@ -65,7 +65,11 @@ sub _check{
                 }
             }elsif($ref eq 'ARRAY'){
                 if(@$rule != 1 && @$rule != @$param){
-                    croak('$rule\'s length differs from $param\'s length')
+                    $self->_set_error(
+                        '$rule\'s length differs from $param\'s length',
+                        $position,
+                        $name);
+                    return;
                 }
                 for(0..$#{$param}){
                     if(defined $rule->[$_]){

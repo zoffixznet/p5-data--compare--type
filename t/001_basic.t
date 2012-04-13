@@ -30,10 +30,12 @@ ok $v->check([111 , 1222, 333] , ["INT"]);
 ok $v->check([111 , 1222, 333] , ["INT" , "INT" , "INT"]);
 ok $v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII"]);
 ok $v->check([111 , 1222, ""] , ["INT" , "INT" , "ASCII"]);
-ok !$v->check([111 , 1222, ""] , ["INT" , "INT" , ["ASCII",'NOT_BLANK']]);
-dies_ok{$v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII" , "INT"])};
-dies_ok{$v->check([111 , 1222, "aaa" , "aaa"] , ["INT" , "INT" , "ASCII"])};
 ok !$v->has_error;
+ok !$v->check([111 , 1222, ""] , ["INT" , "INT" , ["ASCII",'NOT_BLANK']]);
+ok !$v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII" , "INT"]);
+ok !$v->check([111 , 1222, "aaa" , "aaa"] , ["INT" , "INT" , "ASCII"]);
+ok $v->has_error;
+
 # arrayref exception
 ok !$v->check([qw/aaa 222 ccc/] , ["INT"]);
 ok $v->has_error;
