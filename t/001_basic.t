@@ -29,6 +29,8 @@ ok !$v->has_error;
 ok $v->check([111 , 1222, 333] , ["INT"]);
 ok $v->check([111 , 1222, 333] , ["INT" , "INT" , "INT"]);
 ok $v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII"]);
+ok $v->check([111 , 1222, ""] , ["INT" , "INT" , "ASCII"]);
+ok !$v->check([111 , 1222, ""] , ["INT" , "INT" , ["ASCII",'NOT_BLANK']]);
 dies_ok{$v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII" , "INT"])};
 dies_ok{$v->check([111 , 1222, "aaa" , "aaa"] , ["INT" , "INT" , "ASCII"])};
 ok !$v->has_error;
