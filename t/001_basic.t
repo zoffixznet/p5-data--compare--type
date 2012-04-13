@@ -1,6 +1,7 @@
 #!perl -w
 use strict;
 use Test::More;
+use Test::Exception;
 
 use Data::Compare::Type;
 
@@ -28,6 +29,8 @@ ok !$v->has_error;
 ok $v->check([111 , 1222, 333] , ["INT"]);
 ok $v->check([111 , 1222, 333] , ["INT" , "INT" , "INT"]);
 ok $v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII"]);
+dies_ok{$v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII" , "INT"])};
+dies_ok{$v->check([111 , 1222, "aaa" , "aaa"] , ["INT" , "INT" , "ASCII"])};
 ok !$v->has_error;
 # arrayref exception
 ok !$v->check([qw/aaa 222 ccc/] , ["INT"]);
