@@ -65,7 +65,11 @@ sub _check{
                 }
             }elsif($ref eq 'ARRAY'){
                 for(0..$#{$param}){
-                    $self->_check($param->[$_] || "" , $rule->[0] , $position . "->[$_]" , $name);
+                    if(defined $rule->[$_]){
+                        $self->_check($param->[$_] || "" , $rule->[$_] , $position . "->[$_]" , $name);
+                    }else{
+                        $self->_check($param->[$_] || "" , $rule->[0] , $position . "->[$_]" , $name);
+                    }
                 }
             }else{
                 croak($ref . ':declare other types : HASH or ARRAY');

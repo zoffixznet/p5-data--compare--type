@@ -26,6 +26,8 @@ ok !$v->has_error;
 
 # arrayref 
 ok $v->check([111 , 1222, 333] , ["INT"]);
+ok $v->check([111 , 1222, 333] , ["INT" , "INT" , "INT"]);
+ok $v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII"]);
 ok !$v->has_error;
 # arrayref exception
 ok !$v->check([qw/aaa 222 ccc/] , ["INT"]);
