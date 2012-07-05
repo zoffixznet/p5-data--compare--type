@@ -32,6 +32,7 @@ ok $v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII"]);
 ok $v->check([111 , 1222, ""] , ["INT" , "INT" , "ASCII"]);
 ok !$v->has_error;
 ok !$v->check([111 , 1222, ""] , ["INT" , "INT" , ["ASCII",'NOT_BLANK']]);
+ok !$v->check([111 , 1222, ""] , ["INT" , "INT" , ["ASCII",['LENGTH' , 1, 5] ,'NOT_BLANK']]);
 ok !$v->check([111 , 1222, "aaa"] , ["INT" , "INT" , "ASCII" , "INT"]);
 ok !$v->check([111 , 1222, "aaa" , "aaa"] , ["INT" , "INT" , "ASCII"]);
 ok $v->has_error;
@@ -60,6 +61,7 @@ ok $v->check([
 
 # this is Specification
 ok $v->check([] , [{id =>"INT"}]);
+ok $v->check([] , [[]]);
 
 # hash ref 
 ok $v->check({ hoge => 'fuga'},{hoge => "ASCII"});

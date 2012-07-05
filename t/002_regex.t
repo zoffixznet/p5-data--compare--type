@@ -68,6 +68,17 @@ ok !Data::Compare::Type::Regex::DATETIME("2012-12-20 24:28:59");
 ok !Data::Compare::Type::Regex::DATETIME("2012-12-32 00:23:59");
 ok !Data::Compare::Type::Regex::DATETIME("aaaaa");
 
+ok Data::Compare::Type::Regex::DATE("2012-12-20");
+ok Data::Compare::Type::Regex::DATE("2012/12/20");
+ok Data::Compare::Type::Regex::DATE("2012-12-20");
+ok Data::Compare::Type::Regex::DATE("2012/12/20");
+ok Data::Compare::Type::Regex::TIME("24-28-59");
+ok Data::Compare::Type::Regex::TIME("00-23-59");
+ok Data::Compare::Type::Regex::TIME("24:28:59");
+ok Data::Compare::Type::Regex::TIME("00:23:59");
+ok !Data::Compare::Type::Regex::DATE("aaaaa");
+ok !Data::Compare::Type::Regex::TIME("aaaaa");
+
 ok Data::Compare::Type::Regex::TINYINT(0);
 ok Data::Compare::Type::Regex::TINYINT(1);
 ok Data::Compare::Type::Regex::TINYINT("0");

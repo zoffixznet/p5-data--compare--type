@@ -70,6 +70,36 @@ sub DATETIME{
     !$@
 }
 
+sub DATE{
+    my $s = shift;
+    return 1 unless $s;
+    eval{
+        Time::Piece->strptime($s , "%Y-%m-%d");
+    };
+    if($@){
+        eval{
+            Time::Piece->strptime($s , "%Y/%m/%d");
+        }
+    }
+    if($@){
+        eval{
+            Time::Piece->strptime($s , "%Y-%m-%d");
+        }
+    }
+    if($@){
+        eval{
+            Time::Piece->strptime($s , "%Y/%m/%d");
+        }
+    }
+    !$@
+}
+
+sub TIME{
+    my $s = shift;
+    return 1 unless $s;
+    $s =~ m/\d{2}-\d{2}-\d{2}|\d{2}:\d{2}:\d{2}/; 
+}
+
 sub TINYINT{
     my $s = shift;
     return 1 unless $s;

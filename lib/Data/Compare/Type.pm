@@ -68,7 +68,7 @@ sub _check{
                     $self->_set_error(
                         '$rule\'s length differs from $param\'s length',
                         $position,
-                        $name);
+                        $name , 'ARRAY_LENGTH');
                     return;
                 }
                 for(0..$#{$param}){
