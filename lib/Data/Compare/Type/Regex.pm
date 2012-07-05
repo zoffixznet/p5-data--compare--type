@@ -127,6 +127,7 @@ sub BETWEEN{
 
 sub URL{
     my ($s) = @_;
+    return 1 unless $s;
     $s =~ m/^http:\/\/|^https:\/\//; 
 }
 
