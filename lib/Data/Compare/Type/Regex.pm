@@ -126,7 +126,8 @@ sub BETWEEN{
 }
 
 sub URL{
-
+    my ($s) = @_;
+    $s =~ m/^http:\/\/|^https:\/\//; 
 }
 
 1;

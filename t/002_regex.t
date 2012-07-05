@@ -79,6 +79,15 @@ ok Data::Compare::Type::Regex::TIME("00:23:59");
 ok !Data::Compare::Type::Regex::DATE("aaaaa");
 ok !Data::Compare::Type::Regex::TIME("aaaaa");
 
+ok Data::Compare::Type::Regex::URL("http://google.co.jp");
+ok Data::Compare::Type::Regex::URL("https://google.co.jp");
+ok Data::Compare::Type::Regex::URL("http://localhost/hoge/fuga");
+ok Data::Compare::Type::Regex::URL("https://localhost/hoge/fuga/");
+
+ok !Data::Compare::Type::Regex::URL("ftp://google.co.jp");
+ok !Data::Compare::Type::Regex::URL("ftps://google.co.jp");
+ok !Data::Compare::Type::Regex::URL("smb://localhost/hoge/fuga");
+
 ok Data::Compare::Type::Regex::TINYINT(0);
 ok Data::Compare::Type::Regex::TINYINT(1);
 ok Data::Compare::Type::Regex::TINYINT("0");
