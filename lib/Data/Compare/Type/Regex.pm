@@ -50,21 +50,21 @@ sub DATETIME{
     my $s = shift;
     return 1 unless $s;
     eval{
-        Time::Piece->strptime($s , "%Y-%m-%d %H:%M:%s");
+        Time::Piece->strptime($s , "%Y-%m-%d %H:%M:%S");
     };
     if($@){
         eval{
-            Time::Piece->strptime($s , "%Y/%m/%d %H:%M:%s");
+            Time::Piece->strptime($s , "%Y/%m/%d %H:%M:%S");
         }
     }
     if($@){
         eval{
-            Time::Piece->strptime($s , "%Y-%m-%d %H-%M-%s");
+            Time::Piece->strptime($s , "%Y-%m-%d %H-%M-%S");
         }
     }
     if($@){
         eval{
-            Time::Piece->strptime($s , "%Y/%m/%d %H-%M-%s");
+            Time::Piece->strptime($s , "%Y/%m/%d %H-%M-%S");
         }
     }
     !$@
