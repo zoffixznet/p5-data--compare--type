@@ -107,50 +107,66 @@ sub _check{
             $self->_set_error(HASHREF, $position , $name , 'HASH');
             return;
         }elsif(ref $rule eq 'ARRAY'){
-            for(@$rule){
-                if (ref $_ eq 'ARRAY'){
-                    my ($type,$min,$max) = @$_;
-                    
-                    $max = $min unless defined $max;
+            if($rule->[0] eq 'CHARTYPE'){
+                my (undef , @allow_chars) = @$rule;
+                
+                my $range = '';
+                for my $chars_name(@allow_chars){
+                    my $code = $self->can($chars_name);
+                    die NO_SUCH_CHAR_TYPE($chars_name) unless $code;
+                    $range .= $code->();
+                }
+                
+                if ($param =~ m/[$range]/){
+                    my $message = CHARS_ERROR;
+                    $self->_set_error($message, $position , $name , '');
+                }
+            }else{
+                for(@$rule){
+                    if (ref $_ eq 'ARRAY'){
+                        my ($type,$min,$max) = @$_;
+                        
+                        $max = $min unless defined $max;
 
-                    if($type eq 'LENGTH' or $type eq 'BETWEEN'){
-                        if($max < $min ){
-                            ($max , $min) = ($min , $max);
-                        }
-                        no strict;
-                        unless(&{"Data::Compare::Type::Regex::$type"}($param,$min,$max)){
-                            my $message;
-                            if($type eq 'LENGTH'){
-                                $message = LENGTH_ERROR;
-                            }else{
-                                $message = BETWEEN_ERROR;
+                        if($type eq 'LENGTH' or $type eq 'BETWEEN'){
+                            if($max < $min ){
+                                ($max , $min) = ($min , $max);
                             }
-                            $self->_set_error($message, $position , $name , $type, $min , $max);
+                            no strict;
+                            unless(&{"Data::Compare::Type::Regex::$type"}($param,$min,$max)){
+                                my $message;
+                                if($type eq 'LENGTH'){
+                                    $message = LENGTH_ERROR;
+                                }else{
+                                    $message = BETWEEN_ERROR;
+                                }
+                                $self->_set_error($message, $position , $name , $type, $min , $max);
+                            }
+                        }elsif($type eq 'CHARTYPE'){
+                            my (undef , @allow_chars) = @$_;
+                            
+                            my $range = '';
+                            for my $chars_name(@allow_chars){
+                                my $code = $self->can($chars_name);
+                                die NO_SUCH_CHAR_TYPE($chars_name) unless $code;
+                                $range .= $code->();
+                            }
+                            
+                            if ($param =~ m/[$range]/){
+                                my $message = CHARS_ERROR;
+                                $self->_set_error($message, $position , $name , '');
+                            }
+                        }else{
+                            croak "Not declare type:" . $type;
                         }
-                    }elsif($type eq 'CHARTYPE'){
-                        my (undef , @allow_chars) = @$_;
-                        
-                        my $range = '';
-                        for my $chars_name(@allow_chars){
-                            my $code = $self->can($chars_name);
-                            die NO_SUCH_CHAR_TYPE($chars_name) unless $code;
-                            $range .= $code->();
-                        }
-                        
-                        if ($param =~ m/[$range]/){
-                            my $message = CHARS_ERROR;
-                            $self->_set_error($message, $position , $name , '');
-                        }
+                    }elsif (ref $_){
+                        $self->_set_error(HASHREF, $position , $name ,'ARRAY');
+                        return;
                     }else{
-                        croak "Not declare type:" . $type;
-                    }
-                }elsif (ref $_){
-                    $self->_set_error(HASHREF, $position , $name ,'ARRAY');
-                    return;
-                }else{
-                    no strict;
-                    unless(&{"Data::Compare::Type::Regex::$_"}($param)){
-                        $self->_set_error(INVALID($_), $position , $name , $_);
+                        no strict;
+                        unless(&{"Data::Compare::Type::Regex::$_"}($param)){
+                            $self->_set_error(INVALID($_), $position , $name , $_);
+                        }
                     }
                 }
             }

@@ -25,4 +25,6 @@ ok !$v->check({hoge =>  "あア" },{hoge=> [['CHARTYPE' , 'KATAKANA']]});
 ok $v->check({hoge =>  "アあ" },{hoge=> [['CHARTYPE' , 'HIRAGANA','KATAKANA']]});
 ok $v->check({hoge =>  "あア" },{hoge=> [['CHARTYPE' , 'KATAKANA','HIRAGANA']]});
 
+ok $v->check("あ",['CHARTYPE' , 'HIRAGANA']);
+
 done_testing;
