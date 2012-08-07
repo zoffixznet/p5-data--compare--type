@@ -3,11 +3,11 @@ use 5.008_001;
 use strict;
 use warnings;
 use Data::Compare::Type::Regex;
-use Data::Compare::Type::AllowChars;
+use Data::Compare::Type::CharTypes;
 use Carp;
 use Test::More;
 use Data::Dumper;
-use Class::Load;
+use class::load;
 
 our $VERSION = '0.01';
 
@@ -25,7 +25,7 @@ sub CHARS_ERROR{'NOT ALLOWED CHAR EXIST'};
 
 sub new{
     my $class = bless {} , $_[0];
-    $class->load_plugin('Data::Compare::Type::AllowChars');
+    $class->load_plugin('Data::Compare::Type::CharTypes');
     $class;
 }
 
@@ -137,7 +137,7 @@ sub _check{
                             $range .= $code->();
                         }
                         
-                        if ($param =~ m/[^$range]/){
+                        if ($param =~ m/[$range]/){
                             my $message = CHARS_ERROR;
                             $self->_set_error($message, $position , $name , '');
                         }

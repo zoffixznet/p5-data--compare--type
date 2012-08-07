@@ -1,4 +1,4 @@
-package Data::Compare::Type::AllowChars;
+package Data::Compare::Type::CharTypes;
 use 5.008_001;
 use strict;
 use warnings;
@@ -10,12 +10,17 @@ use base 'Exporter';
 our @EXPORT= qw/HIRAGANA KATAKANA/;
 
 sub HIRAGANA{
-    '\x{3040}-\x{309F}';
+    '^\x{3040}-\x{309F}';
 }
 
 sub KATAKANA{
-    '\x{30A0}-\x{30FF}';
+    '^\x{30A0}-\x{30FF}';
 }
+
+sub WITHOUT_EMOJI{
+    '\x{E63E}-\x{E757}';
+}
+
 1;
 
 __END__
