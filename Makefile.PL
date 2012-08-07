@@ -10,6 +10,7 @@ BEGIN {
         Module::Install::AuthorTests     0.002
         Module::Install::Repository      0.06
         Test::Requires                   0.06
+        Class::Load                      0
     );
     my @not_available;
     while(my($mod, $ver) = splice @devmods, 0, 2) {

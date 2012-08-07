@@ -3,9 +3,11 @@ use 5.008_001;
 use strict;
 use warnings;
 use Data::Compare::Type::Regex;
+use Data::Compare::Type::AllowChars;
 use Carp;
 use Test::More;
 use Data::Dumper;
+use Class::Load;
 
 our $VERSION = '0.01';
 
@@ -13,18 +15,36 @@ our $VERSION = '0.01';
 sub HASHREF {'excepted hash ref'};
 sub HASHVALUE {'excepted hash value'};
 sub ARRAYREF {'excepted array ref'};
+sub NO_SUCH_CHAR_TYPE {'was not declare ' . $_->[0]};
 sub REF {'excepted ref'};
 sub INVALID{'excepted ' . $_[0]};
 
 sub LENGTH_ERROR{'LENGTH IS WRONG'};
 sub BETWEEN_ERROR{'BETWEEN IS WRONG'};
+sub CHARS_ERROR{'NOT ALLOWED CHAR EXIST'};
 
 sub new{
-    bless {} , $_[0];
+    my $class = bless {} , $_[0];
+    $class->load_plugin('Data::Compare::Type::AllowChars');
+    $class;
+}
+
+sub load_plugin {
+    my ($class, $pkg, $opt) = @_;
+    Class::Load::load_class($pkg);
+    no strict 'refs';
+    for my $meth ( @{"${pkg}::EXPORT"} ) {
+        my $dest_meth =
+          ( $opt->{alias} && $opt->{alias}->{$meth} )
+          ? $opt->{alias}->{$meth}
+          : $meth;
+        *{"${class}::${dest_meth}"} = *{"${pkg}::$meth"};
+    }
 }
 
 sub check{
     my($self , $param , $rule) = @_;
+
     $self->{error} = 1;
     croak('set params') if !$param or !$rule;
 
@@ -93,11 +113,10 @@ sub _check{
                     
                     $max = $min unless defined $max;
 
-                    if($max < $min ){
-                        ($max , $min) = ($min , $max);
-                    }
-                    
                     if($type eq 'LENGTH' or $type eq 'BETWEEN'){
+                        if($max < $min ){
+                            ($max , $min) = ($min , $max);
+                        }
                         no strict;
                         unless(&{"Data::Compare::Type::Regex::$type"}($param,$min,$max)){
                             my $message;
@@ -107,6 +126,20 @@ sub _check{
                                 $message = BETWEEN_ERROR;
                             }
                             $self->_set_error($message, $position , $name , $type, $min , $max);
+                        }
+                    }elsif($type eq 'CHARTYPE'){
+                        my (undef , @allow_chars) = @$_;
+                        
+                        my $range = '';
+                        for my $chars_name(@allow_chars){
+                            my $code = $self->can($chars_name);
+                            die NO_SUCH_CHAR_TYPE($chars_name) unless $code;
+                            $range .= $code->();
+                        }
+                        
+                        if ($param =~ m/[^$range]/){
+                            my $message = CHARS_ERROR;
+                            $self->_set_error($message, $position , $name , '');
                         }
                     }else{
                         croak "Not declare type:" . $type;
