@@ -7,7 +7,7 @@ use utf8;
 our $VERSION = '0.01';
 
 use base 'Exporter';
-our @EXPORT= qw/HIRAGANA KATAKANA/;
+our @EXPORT= qw/HIRAGANA KATAKANA WITHOUT_EMOJI/;
 
 sub HIRAGANA{
     '^\x{3040}-\x{309F}';
