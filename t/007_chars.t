@@ -36,6 +36,8 @@ ok $v->check({hoge =>  "Ⅳ" },{hoge=> [['CHARTYPE' , 'NUMBER']]});
 
 ok $v->check("あ",['CHARTYPE' , 'HIRAGANA']);
 
+ok $v->check("†",['CHARTYPE' , 'PUNCTUATION']);
+
 ok $v->check('((((；ﾟДﾟ))))ｶﾞｸｶﾞｸﾌﾞﾙﾌﾞﾙ',['CHARTYPE' , qw/HIRAGANA KATAKANA GREEK ASCII CYRILLIC MATH NUMBER/]);
 
 done_testing;
