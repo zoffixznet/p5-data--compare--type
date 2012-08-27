@@ -25,6 +25,17 @@ ok !$v->check({hoge =>  "あア" },{hoge=> [['CHARTYPE' , 'KATAKANA']]});
 ok $v->check({hoge =>  "アあ" },{hoge=> [['CHARTYPE' , 'HIRAGANA','KATAKANA']]});
 ok $v->check({hoge =>  "あア" },{hoge=> [['CHARTYPE' , 'KATAKANA','HIRAGANA']]});
 
+ok !$v->check({hoge =>  "Д" },{hoge=> [['CHARTYPE' , 'HIRAGANA']]});
+ok $v->check({hoge =>  "Д" },{hoge=> [['CHARTYPE' , 'CYRILLIC']]});
+
+ok $v->check({hoge =>  "α" },{hoge=> [['CHARTYPE' , 'GREEK']]});
+
+ok $v->check({hoge =>  "∀" },{hoge=> [['CHARTYPE' , 'MATH']]});
+
+ok $v->check({hoge =>  "Ⅳ" },{hoge=> [['CHARTYPE' , 'NUMBER']]});
+
 ok $v->check("あ",['CHARTYPE' , 'HIRAGANA']);
+
+ok $v->check('((((；ﾟДﾟ))))ｶﾞｸｶﾞｸﾌﾞﾙﾌﾞﾙ',['CHARTYPE' , qw/HIRAGANA KATAKANA GREEK ASCII CYRILLIC MATH NUMBER/]);
 
 done_testing;

@@ -7,18 +7,38 @@ use utf8;
 our $VERSION = '0.01';
 
 use base 'Exporter';
-our @EXPORT= qw/HIRAGANA KATAKANA WITHOUT_EMOJI/;
+our @EXPORT= qw/HIRAGANA KATAKANA GREEK ASCII CYRILLIC MATH NUMBER/;
 
 sub HIRAGANA{
     '^\x{3040}-\x{309F}';
 }
 
 sub KATAKANA{
-    '^\x{30A0}-\x{30FF}';
+    '^\x{30A0}-\x{30FF}\x{FF00}-\x{FFEF}';
 }
 
-sub WITHOUT_EMOJI{
-    '\x{E63E}-\x{E757}';
+sub KANJI{
+    '^\x{F900}-\x{FAFF}';
+}
+
+sub ASCII{
+    '^\x{0000}-\x{007F}';
+}
+
+sub GREEK{
+    '^\x{0370}-\x{03FF}';
+}
+
+sub NUMBER{
+    '^\x{2150}-\x{218F}';
+}
+
+sub CYRILLIC{
+    '^\x{0400}-\x{04FF}';
+}
+
+sub MATH{
+    '^\x{2200}-\x{22FF}';
 }
 
 1;
