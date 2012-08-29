@@ -40,4 +40,6 @@ ok $v->check("†",['CHARTYPE' , 'PUNCTUATION']);
 
 ok $v->check('((((；ﾟДﾟ))))ｶﾞｸｶﾞｸﾌﾞﾙﾌﾞﾙ',['CHARTYPE' , qw/HIRAGANA KATAKANA GREEK ASCII CYRILLIC MATH NUMBER/]);
 
+ok $v->check("藤",['CHARTYPE' , 'KANJI']);
+
 done_testing;

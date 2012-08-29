@@ -7,7 +7,7 @@ use utf8;
 our $VERSION = '0.01';
 
 use base 'Exporter';
-our @EXPORT= qw/HIRAGANA KATAKANA GREEK ASCII CYRILLIC MATH NUMBER PUNCTUATION/;
+our @EXPORT= qw/HIRAGANA KATAKANA KANJI GREEK ASCII CYRILLIC MATH NUMBER PUNCTUATION/;
 
 sub HIRAGANA{
     '^\x{3040}-\x{309F}';
@@ -18,7 +18,7 @@ sub KATAKANA{
 }
 
 sub KANJI{
-    '^\x{F900}-\x{FAFF}';
+    '^\x{4E00}-\x{9FFF}';
 }
 
 sub ASCII{
