@@ -213,7 +213,7 @@ __END__
 
 =head1 NAME
 
-Data::Compare::Type - Perl extention to do something
+Data::Compare::Type - Validation module for nexted array ,hash ,scalar  like FormValidator::Simple
 
 =head1 VERSION
 
@@ -231,9 +231,35 @@ This document describes Data::Compare::Type version 0.01.
 
 =head2 Functions
 
-=head3 C<< hello() >>
+=head3 check
+    $v = Data::Compare::Type->new();
+    ok $v->check(111 , "INT");
+    ok $v->check([111 , 1222, 333] , ["INT"]);
+    ok $v->check({ hoge => 'fuga'},{hoge => "ASCII"});
+    ok $v->check([{id => 111,id2=> 22.2 },{id=> 1222 , id2=> 1.11},{id=> 333 , id2=> 44.44}] , [{id =>"INT",id2 => "DECIMAL"}]);
 
-# TODO
+=head3 has_error
+    $v->check({hoge =>  "hogehogehogehoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
+    if($v->has_error){
+        # error handling routine
+    }
+
+=head3 get_error
+    $v->check({hoge =>  "hogehogehogehoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
+    if($v->has_error){
+        use Data::Dumper;
+        warn Dumper $v->get_error;
+        #$VAR1 = [
+        #  {
+        #    'min_value' => 1,
+        #    'error' => 'LENGTH',
+        #    'position' => '$param->{hoge}',
+        #    'max_value' => 15,
+        #    'param_name' => 'hoge',
+        #    'message' => 'LENGTH IS WRONG'
+        #  }
+        #];
+    }
 
 =head1 DEPENDENCIES
 
