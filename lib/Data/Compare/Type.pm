@@ -330,7 +330,7 @@ check value length
 
 =head2 BETWEEN
 
-check value length
+check value 
     $rule = ["INT",['BETWEEN' , 1 , 8]]} # a , 
     $v->check([1] , $rule) # true
     $v->check([3.1] , $rule) # true
