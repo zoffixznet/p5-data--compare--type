@@ -7,7 +7,7 @@ use Data::Compare::Type::CharTypes;
 use Carp;
 use Test::More;
 use Data::Dumper;
-use class::load;
+use Class::Load;
 
 our $VERSION = '0.01';
 
