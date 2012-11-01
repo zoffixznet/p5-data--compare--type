@@ -222,44 +222,99 @@ This document describes Data::Compare::Type version 0.01.
 =head1 SYNOPSIS
 
     use Data::Compare::Type;
+    $v = Data::Compare::Type->new();
+    $parameters = { id => 100};
+    $rule = {id => 'INT'};
+    $v->check($parameters , $rule)
+    
+    if($v->has_error){
+        for my $error(@{$v->get_error}){
+            die($error->{param_name} . ' is not ' . $error->{error});
+        }
+    }
 
 =head1 DESCRIPTION
 
-# TODO
+    You can check some value types in Scalar , Arrayref , Hashref.
 
-=head1 INTERFACE
+=head1 Functions
 
-=head2 Functions
+=head2 check
 
-=head3 check
-    $v = Data::Compare::Type->new();
-    ok $v->check(111 , "INT");
-    ok $v->check([111 , 1222, 333] , ["INT"]);
-    ok $v->check({ hoge => 'fuga'},{hoge => "ASCII"});
-    ok $v->check([{id => 111,id2=> 22.2 },{id=> 1222 , id2=> 1.11},{id=> 333 , id2=> 44.44}] , [{id =>"INT",id2 => "DECIMAL"}]);
+  $v = Data::Compare::Type->new();
+  $v->check(111 , "INT"); # return true
+  $v->check(111 , "STRING"); # return false and $v->has_error is true 
+  $v->check([111 , 1222, 333] , ["INT"]);# return true
+  $v->check({ hoge => 'fuga'},{hoge => "ASCII"});# return true
+  $v->check([{id => 111,id2=> 22.2 },{id=> 1222 , id2=> 1.11},{id=> 333 , id2=> 44.44}] , [{id =>"INT",id2 => "DECIMAL"}]);# return true
 
-=head3 has_error
-    $v->check({hoge =>  "hogehogehogehoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
-    if($v->has_error){
-        # error handling routine
-    }
+=head2 has_error
 
-=head3 get_error
-    $v->check({hoge =>  "hogehogehogehoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
-    if($v->has_error){
-        use Data::Dumper;
-        warn Dumper $v->get_error;
-        #$VAR1 = [
-        #  {
-        #    'min_value' => 1,
-        #    'error' => 'LENGTH',
-        #    'position' => '$param->{hoge}',
-        #    'max_value' => 15,
-        #    'param_name' => 'hoge',
-        #    'message' => 'LENGTH IS WRONG'
-        #  }
-        #];
-    }
+  $v->check({hoge =>  "hogehogehogehoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
+  if($v->has_error){
+      # error handling routine
+  }
+
+=head2 get_error
+
+  $v->check({hoge =>  "hogehogehogehoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
+  if($v->has_error){
+      use Data::Dumper;
+      warn Dumper $v->get_error;
+      #$VAR1 = [
+      #  {
+      #    'min_value' => 1,
+      #    'error' => 'LENGTH',
+      #    'position' => '$param->{hoge}',
+      #    'max_value' => 15,
+      #    'param_name' => 'hoge',
+      #    'message' => 'LENGTH IS WRONG'
+      #  }
+      #];
+  }
+
+=head1 Check Methods
+
+=head2 INT
+
+allow integer ; 10 , 0 , -10
+
+=head2 STRING
+
+allow Strings
+
+=head2 ASCII
+
+allow alphabet and ascii symbols
+
+=head2 DECIMAL
+
+allow integer and decimals ; 10 1,0 , 0 , -10 , -1.0
+
+=head2 URL
+
+allow ^http|^https
+
+=head2 EMAIL
+
+used Email::Valid;
+
+=head2 DATETIME
+
+    '%Y-%m-%d %H:%M:%S'
+    '%Y/%m/%d %H:%M:%S'
+    '%Y-%m-%d %H-%M-%S'
+    '%Y/%m/%d %H-%M-%S'
+
+=head2 DATE
+
+    '%Y-%m-%d'
+    '%Y/%m/%d'
+
+=head2 TIME
+
+    '%H-%M-%S'
+    '%H-%M-%S'
 
 =head1 DEPENDENCIES
 
