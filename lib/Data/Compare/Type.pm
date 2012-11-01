@@ -316,6 +316,30 @@ used Email::Valid;
     '%H-%M-%S'
     '%H-%M-%S'
 
+=head2 LENGTH
+
+check value length
+    $rule = ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 8]]} # a , 
+    $v->check(['a'] , $rule) # true
+    $v->check(['abcdefghi'] , $rule) # false 
+
+    $rule = ["ASCII","NOT_BLANK" , ['LENGTH' , 4]]} # a , 
+    $v->check(['abc'] , $rule) # false 
+    $v->check(['abcd'] , $rule) # true
+    $v->check(['abcde'] , $rule) # false 
+
+=head2 BETWEEN
+
+check value length
+    $rule = ["INT",['BETWEEN' , 1 , 8]]} # a , 
+    $v->check([1] , $rule) # true
+    $v->check([3.1] , $rule) # true
+    $v->check([5] , $rule) # true
+    $v->check([7.9] , $rule) # true
+    $v->check([8] , $rule) # true
+    $v->check([9] , $rule) # false 
+    $v->check([0] , $rule) # false 
+
 =head1 DEPENDENCIES
 
 Perl 5.8.1 or later.
