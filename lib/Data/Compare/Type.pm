@@ -9,7 +9,7 @@ use Test::More;
 use Data::Dumper;
 use Class::Load;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 # static values
 sub HASHREF {'excepted hash ref'};
