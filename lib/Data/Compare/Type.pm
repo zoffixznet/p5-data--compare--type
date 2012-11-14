@@ -76,8 +76,12 @@ sub _check{
             if($ref eq 'HASH'){
                 for(keys %$rule){
                     unless(exists $param->{$_}){
-                        if(_instr($rule->{$_},'NOT_BLANK')){
-                            $self->_set_error(HASHVALUE, $position, $_ ,'NOT_BLANK');
+                        if(ref $rule->{$_} eq 'ARRAY' and ref $rule->{$_}[0] eq 'ARRAY'){
+                            $self->_set_error(ARRAYREF, $position, $_ ,'NOT_BLANK');
+                        }else{
+                            if(_instr($rule->{$_},'NOT_BLANK')){
+                                $self->_set_error(HASHVALUE, $position, $_ ,'NOT_BLANK');
+                            }
                         }
                     }else{
                         $self->_check($param->{$_} , $rule->{$_} , $position . "->{$_}" , $_);

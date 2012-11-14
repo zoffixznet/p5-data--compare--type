@@ -96,4 +96,8 @@ ok !$v->check({fuga => "fuga" },{hoge => ["NOT_BLANK"] , fuga=> ["NOT_BLANK"]});
 ok !$v->check({},{hoge => ["NOT_BLANK"] , fuga=> ["NOT_BLANK"]});
 ok !$v->check({hoge => 'hoge' , },{hoge => ["NOT_BLANK"] , fuga=> ["NOT_BLANK"]});
 
+ok $v->check({id => 1 ,used_skill => [qw/1 2 3/]}, {id => ['INT'] ,used_skill => [['INT' , 'NOT_BLANK']]});
+ok $v->check({id => 1 ,used_skill => []}, {id => ['INT'] ,used_skill => [['INT' , 'NOT_BLANK']]});
+ok !$v->check({id => 1 ,}, {id => ['INT'] ,used_skill => [['INT' , 'NOT_BLANK']]});
+
 done_testing;
