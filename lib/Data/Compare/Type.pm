@@ -213,7 +213,7 @@ __END__
 
 =head1 NAME
 
-Data::Compare::Type - Validation module for nexted array ,hash ,scalar  like FormValidator::Simple
+Data::Compare::Type - Validation module for nested array ,hash ,scalar  like FormValidator::Simple
 
 =head1 VERSION
 
