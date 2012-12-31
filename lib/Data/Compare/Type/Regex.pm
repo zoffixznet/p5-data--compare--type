@@ -7,6 +7,9 @@ use Time::Piece;
 
 our $VERSION = '0.01';
 
+use base 'Exporter';
+our @EXPORT= qw/NOT_BLANK INT ASCII STRING DECIMAL EMAIL DATETIME DATE TIME TINYINT URL LENGTH BETWEEN/;
+
 sub NOT_BLANK{
     my $s = shift;
     if (defined $s and length($s) > 0 ){

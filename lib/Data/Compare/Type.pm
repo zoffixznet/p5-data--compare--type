@@ -26,6 +26,7 @@ sub CHARS_ERROR{'NOT ALLOWED CHAR EXIST'};
 sub new{
     my $class = bless {} , $_[0];
     $class->load_plugin('Data::Compare::Type::CharTypes');
+    $class->load_plugin('Data::Compare::Type::Regex');
     $class;
 }
 
@@ -137,7 +138,10 @@ sub _check{
                                 ($max , $min) = ($min , $max);
                             }
                             no strict;
-                            unless(&{"Data::Compare::Type::Regex::$type"}($param,$min,$max)){
+
+                            my $code = $self->can($type);
+                            die NO_SUCH_CHAR_TYPE($type) unless $code;
+                            unless($code->($param,$min,$max)){
                                 my $message;
                                 if($type eq 'LENGTH'){
                                     $message = LENGTH_ERROR;
@@ -167,16 +171,18 @@ sub _check{
                         $self->_set_error(HASHREF, $position , $name ,'ARRAY');
                         return;
                     }else{
-                        no strict;
-                        unless(&{"Data::Compare::Type::Regex::$_"}($param)){
+                        my $code = $self->can($_);
+                        die NO_SUCH_CHAR_TYPE($_) unless $code;
+                        unless($code->($param)){
                             $self->_set_error(INVALID($_), $position , $name , $_);
                         }
                     }
                 }
             }
         }else{
-            no strict;
-            unless(&{"Data::Compare::Type::Regex::$rule"}($param)){
+            my $code = $self->can($rule);
+            die NO_SUCH_CHAR_TYPE($rule) unless $code;
+            unless($code->($param)){
                 $self->_set_error(INVALID($rule), $position , $param , $rule);
             }
         }
