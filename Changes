@@ -6,4 +6,8 @@ NEXT <<SET RELEASE DATE HERE>>
 
 NEXT <<2012-12-31>>
     - 0.04; updated POD
-      at Fri Mar  2 15:41:01 2012.
+      at Mon Dec 31 23:40:00 2012.
+
+NEXT <<2013-01-01>>
+    - 0.04; update Data::Compare::Type::Regex;Change to load_plugin style
+      at Tue Jun 1 00:10:00 2013.
