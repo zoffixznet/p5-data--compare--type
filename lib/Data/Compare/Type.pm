@@ -249,19 +249,23 @@ This document describes Data::Compare::Type version 0.01.
   $v->check(111 , "INT"); # return true
   $v->check(111 , "STRING"); # return false and $v->has_error is true 
   $v->check([111 , 1222, 333] , ["INT"]);# return true
-  $v->check({ hoge => 'fuga'},{hoge => "ASCII"});# return true
+  $v->check({ key  => 'value'},{key=> "ASCII"});# return true
   $v->check([{id => 111,id2=> 22.2 },{id=> 1222 , id2=> 1.11},{id=> 333 , id2=> 44.44}] , [{id =>"INT",id2 => "DECIMAL"}]);# return true
 
 =head2 has_error
 
-  $v->check({hoge =>  "hogehogehogehoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
+  $v->check(
+    {key =>  "abcdefghijklmnop" },
+    {key => ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
   if($v->has_error){
       # error handling routine
   }
 
 =head2 get_error
 
-  $v->check({hoge =>  "hogehogehogehoge" },{hoge=> ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
+  $v->check(
+    {key =>  "abcdefghijklmnop" },
+    {key => ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 15]]});
   if($v->has_error){
       use Data::Dumper;
       warn Dumper $v->get_error;
@@ -281,68 +285,99 @@ This document describes Data::Compare::Type version 0.01.
 
 =head2 INT
 
-allow integer ; 10 , 0 , -10
+ # allow integer ; 10 , 0 , -10
+ ok $v->check(
+    {key =>  "1" },
+    {key => "INT"});
 
 =head2 STRING
 
-allow Strings
+ # allow all Strings
+ ok $v->check(
+    ["111" , "abcde"],
+    ["STRING"]);
 
 =head2 ASCII
 
-allow alphabet and ascii symbols
+ # allow Arabic number and alphabet and ascii symbols
+ ok $v->check(
+    ["111" , 'abcde!"#$%%()'],
+    ["ASCII"]);
+ 
+ # not allow multi bytes characters
+ ng $v->check(
+    ["あ" , "漢字"],
+    ["ASCII"]);
 
 =head2 DECIMAL
 
-allow integer and decimals ; 10 1,0 , 0 , -10 , -1.0
+ # allow integer and decimals ; 10 1,0 , 0 , -10 , -1.0
+ ok $v->check(
+    ["111" , "11.1" , "-11" , '0' , '-1.15'],
+    ["DECIMAL"]);
 
 =head2 URL
 
-allow ^http|^https
+ # allow ^http|^https
+ ok $v->check(
+    ["http://google.com" , 'https://www.google.com/'],
+    ["URL"]);
+
+ ng $v->check(
+    ["git://google.com" , 'smb://www.google.com/'],
+    ["URL"]);
 
 =head2 EMAIL
 
-used Email::Valid;
+ this is base on Email::Valid;
 
 =head2 DATETIME
-
-    '%Y-%m-%d %H:%M:%S'
-    '%Y/%m/%d %H:%M:%S'
-    '%Y-%m-%d %H-%M-%S'
-    '%Y/%m/%d %H-%M-%S'
+ # The following examples are followed. 
+ ok $v->check([
+     '%Y-%m-%d %H:%M:%S',
+     '%Y/%m/%d %H:%M:%S',
+     '%Y-%m-%d %H-%M-%S',
+     '%Y/%m/%d %H-%M-%S',],
+ ['DATETIME']);
 
 =head2 DATE
-
-    '%Y-%m-%d'
-    '%Y/%m/%d'
+ # The following examples are followed. 
+ ok $v->check([
+    '%Y-%m-%d',
+    '%Y/%m/%d'],
+ ['DATE']);
 
 =head2 TIME
 
-    '%H-%M-%S'
-    '%H-%M-%S'
+ # The following examples are followed. 
+ ok $v->check([
+    '%H-%M-%S',
+    '%H-%M-%S'],
+ ['TIME']);
 
 =head2 LENGTH
 
-check value length
-    $rule = ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 8]]} # a , 
-    $v->check(['a'] , $rule) # true
-    $v->check(['abcdefghi'] , $rule) # false 
+ # check value length
+ $rule = ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 8]];
+ ok $v->check(['a'] , $rule);
+ ng $v->check(['abcdefghi'] , $rule);
 
-    $rule = ["ASCII","NOT_BLANK" , ['LENGTH' , 4]]} # a , 
-    $v->check(['abc'] , $rule) # false 
-    $v->check(['abcd'] , $rule) # true
-    $v->check(['abcde'] , $rule) # false 
+ $rule = ["ASCII","NOT_BLANK" , ['LENGTH' , 4]];
+ ng $v->check(['abc'] , $rule) # false 
+ ok $v->check(['abcd'] , $rule) # true
+ ng $v->check(['abcde'] , $rule) # false 
 
 =head2 BETWEEN
 
-check value 
-    $rule = ["INT",['BETWEEN' , 1 , 8]]} # a , 
-    $v->check([1] , $rule) # true
-    $v->check([3.1] , $rule) # true
-    $v->check([5] , $rule) # true
-    $v->check([7.9] , $rule) # true
-    $v->check([8] , $rule) # true
-    $v->check([9] , $rule) # false 
-    $v->check([0] , $rule) # false 
+# check value 
+$rule = ["INT",['BETWEEN' , 1 , 8]];
+ok $v->check([1] , $rule) # true
+ng $v->check([3.1] , $rule) # false not INT
+ok $v->check([5] , $rule) # true
+ng $v->check([7.9] , $rule) # false not INT 
+ok $v->check([8] , $rule) # true
+ng $v->check([9] , $rule) # false, input is over 8
+ng $v->check([0] , $rule) # false, input is under 1
 
 =head1 DEPENDENCIES
 
