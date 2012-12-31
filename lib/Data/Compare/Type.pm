@@ -281,8 +281,6 @@ This document describes Data::Compare::Type version 0.01.
       #];
   }
 
-=head1 Check Methods
-
 =head2 INT
 
  # allow integer ; 10 , 0 , -10
@@ -332,6 +330,7 @@ This document describes Data::Compare::Type version 0.01.
  this is base on Email::Valid;
 
 =head2 DATETIME
+
  # The following examples are followed. 
  ok $v->check([
      '%Y-%m-%d %H:%M:%S',
@@ -341,6 +340,7 @@ This document describes Data::Compare::Type version 0.01.
  ['DATETIME']);
 
 =head2 DATE
+
  # The following examples are followed. 
  ok $v->check([
     '%Y-%m-%d',
@@ -369,15 +369,15 @@ This document describes Data::Compare::Type version 0.01.
 
 =head2 BETWEEN
 
-# check value 
-$rule = ["INT",['BETWEEN' , 1 , 8]];
-ok $v->check([1] , $rule) # true
-ng $v->check([3.1] , $rule) # false not INT
-ok $v->check([5] , $rule) # true
-ng $v->check([7.9] , $rule) # false not INT 
-ok $v->check([8] , $rule) # true
-ng $v->check([9] , $rule) # false, input is over 8
-ng $v->check([0] , $rule) # false, input is under 1
+ # check value 
+ $rule = ["INT",['BETWEEN' , 1 , 8]];
+ ok $v->check([1] , $rule) # true
+ ng $v->check([3.1] , $rule) # false not INT
+ ok $v->check([5] , $rule) # true
+ ng $v->check([7.9] , $rule) # false not INT 
+ ok $v->check([8] , $rule) # true
+ ng $v->check([9] , $rule) # false, input is over 8
+ ng $v->check([0] , $rule) # false, input is under 1
 
 =head1 DEPENDENCIES
 
