@@ -136,7 +136,7 @@ __END__
 
 =head1 NAME
 
-Data::Compare::Type::Regex - Perl extention to do something
+Data::Compare::Type::Regex - Plugin for Data::Compare::Type
 
 =head1 VERSION
 
@@ -144,9 +144,9 @@ This document describes Data::Compare::Type::Regex version 0.01.
 
 =head1 SYNOPSIS
 
-    use Data::Compare::Type;
-    $class = Data::Compare::Type->new;
-    $class->load_plugin('Data::Compare::Type::Regex');
+ use Data::Compare::Type;
+ $class = Data::Compare::Type->new;
+ $class->load_plugin('Data::Compare::Type::Regex');
 
 =head1 DESCRIPTION
 
@@ -156,23 +156,25 @@ This module provides some validate methods based on regex
  ok $class->NOT_BLANK('value');
  ng $class->NOT_BLANK('');
 
-=head1 Functions 
+=head1 INTERFACE
 
-=head2 INT
+=head2 Functions 
+
+=head3 INT
 
  # allow integer ; 10 , 0 , -10
  ok $v->check(
     {key =>  "1" },
     {key => "INT"});
 
-=head2 STRING
+=head3 STRING
 
  # allow all Strings
  ok $v->check(
     ["111" , "abcde"],
     ["STRING"]);
 
-=head2 ASCII
+=head3 ASCII
 
  # allow Arabic number and alphabet and ascii symbols
  ok $v->check(
@@ -184,14 +186,14 @@ This module provides some validate methods based on regex
     ["あ" , "漢字"],
     ["ASCII"]);
 
-=head2 DECIMAL
+=head3 DECIMAL
 
  # allow integer and decimals ; 10 1,0 , 0 , -10 , -1.0
  ok $v->check(
     ["111" , "11.1" , "-11" , '0' , '-1.15'],
     ["DECIMAL"]);
 
-=head2 URL
+=head3 URL
 
  # allow ^http|^https
  ok $v->check(
@@ -202,11 +204,11 @@ This module provides some validate methods based on regex
     ["git://google.com" , 'smb://www.google.com/'],
     ["URL"]);
 
-=head2 EMAIL
+=head3 EMAIL
 
  this is base on Email::Valid;
 
-=head2 DATETIME
+=head3 DATETIME
 
  # The following examples are followed. 
  ok $v->check([
@@ -216,7 +218,7 @@ This module provides some validate methods based on regex
      '%Y/%m/%d %H-%M-%S',],
  ['DATETIME']);
 
-=head2 DATE
+=head3 DATE
 
  # The following examples are followed. 
  ok $v->check([
@@ -224,7 +226,7 @@ This module provides some validate methods based on regex
     '%Y/%m/%d'],
  ['DATE']);
 
-=head2 TIME
+=head3 TIME
 
  # The following examples are followed. 
  ok $v->check([
@@ -232,7 +234,7 @@ This module provides some validate methods based on regex
     '%H-%M-%S'],
  ['TIME']);
 
-=head2 LENGTH
+=head3 LENGTH
 
  # check value length
  $rule = ["ASCII","NOT_BLANK" , ['LENGTH' , 1 , 8]];
@@ -244,7 +246,7 @@ This module provides some validate methods based on regex
  ok $v->check(['abcd'] , $rule) # true
  ng $v->check(['abcde'] , $rule) # false 
 
-=head2 BETWEEN
+=head3 BETWEEN
 
  # check value 
  $rule = ["INT",['BETWEEN' , 1 , 8]];

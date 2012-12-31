@@ -51,7 +51,7 @@ __END__
 
 =head1 NAME
 
-Data::Compare::Type::AllowChars - Perl extention to do something
+Data::Compare::Type::AllowChars - Plugin for Data::Compare::Type
 
 =head1 VERSION
 
@@ -59,75 +59,39 @@ This document describes Data::Compare::Type::AllowChars version 0.01.
 
 =head1 SYNOPSIS
 
-    use Data::Compare::Type::AllowChars;
+ use Data::Compare::Type;
+ $class = Data::Compare::Type->new;
+ $class->load_plugin('Data::Compare::Type::AllowChars');
 
 =head1 DESCRIPTION
 
-# TODO
+This module provides some validate methods based on utf8 characters
+ 
+ use Test::More;
+ ok $class->NUMBER('100');
+ ng $class->NUMBER('value');
 
 =head1 INTERFACE
 
 =head2 Functions
 
-=head3 C<< hello() >>
+=head3 HIRAGANA 
 
-# TODO
+=head3 KATAKANA 
 
-=head1 DEPENDENCIES
+=head3 KANJI 
 
-Perl 5.8.1 or later.
+=head3 GREEK 
 
-=head1 BUGS
+=head3 ASCII 
 
-All complex software has bugs lurking in it, and this module is no
-exception. If you find a bug please either email me, or add the bug
-to cpan-RT.
+=head3 CYRILLIC 
 
-=head1 SEE ALSO
+=head3 MATH 
 
-L<perl>
+=head3 NUMBER 
 
-=head1 AUTHOR
-
-S2 E<lt>s2otsa@hotmail.comE<gt>
-
-=head1 LICENSE AND COPYRIGHT
-
-Copyright (c) 2012, S2. All rights reserved.
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=cut
-
-}
-
-1;
-__END__
-
-=head1 NAME
-
-Data::Compare::Type::AllowChars - Perl extention to do something
-
-=head1 VERSION
-
-This document describes Data::Compare::Type::AllowChars version 0.01.
-
-=head1 SYNOPSIS
-
-    use Data::Compare::Type::AllowChars;
-
-=head1 DESCRIPTION
-
-# TODO
-
-=head1 INTERFACE
-
-=head2 Functions
-
-=head3 C<< hello() >>
-
-# TODO
+=head3 PUNCTUATION
 
 =head1 DEPENDENCIES
 
