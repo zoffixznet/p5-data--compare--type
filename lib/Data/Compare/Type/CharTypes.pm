@@ -47,7 +47,7 @@ sub CHARTYPE::PUNCTUATION{
 
 1;
 
-::END::
+__END__
 
 =head1 NAME
 
