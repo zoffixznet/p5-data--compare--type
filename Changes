@@ -11,3 +11,8 @@ NEXT <<2012-12-31>>
 NEXT <<2013-01-01>>
     - 0.04; update Data::Compare::Type::Regex;Change to load_plugin style
       at Tue Jun 1 00:10:00 2013.
+
+NEXT <<2013-01-07>>
+    - 0.05; update Data::Compare::Type::Regex;
+      Change CharTypes's method names
+      at Tue Jun 7 18:36:00 2013.
