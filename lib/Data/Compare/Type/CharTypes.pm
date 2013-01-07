@@ -7,47 +7,47 @@ use utf8;
 our $VERSION = '0.02';
 
 use base 'Exporter';
-our @EXPORT= qw/HIRAGANA KATAKANA KANJI GREEK ASCII CYRILLIC MATH NUMBER PUNCTUATION/;
+our @EXPORT= qw/CHARTYPE::HIRAGANA CHARTYPE::KATAKANA CHARTYPE::KANJI CHARTYPE::GREEK CHARTYPE::ASCII CHARTYPE::CYRILLIC CHARTYPE::MATH CHARTYPE::NUMBER CHARTYPE::PUNCTUATION/;
 
-sub HIRAGANA{
+sub CHARTYPE::HIRAGANA{
     '^\x{3040}-\x{309F}';
 }
 
-sub KATAKANA{
+sub CHARTYPE::KATAKANA{
     '^\x{30A0}-\x{30FF}\x{FF00}-\x{FFEF}';
 }
 
-sub KANJI{
+sub CHARTYPE::KANJI{
     '^\x{4E00}-\x{9FFF}';
 }
 
-sub ASCII{
+sub CHARTYPE::ASCII{
     '^\x{0000}-\x{007F}';
 }
 
-sub GREEK{
+sub CHARTYPE::GREEK{
     '^\x{0370}-\x{03FF}';
 }
 
-sub NUMBER{
+sub CHARTYPE::NUMBER{
     '^\x{2150}-\x{218F}';
 }
 
-sub CYRILLIC{
+sub CHARTYPE::CYRILLIC{
     '^\x{0400}-\x{04FF}';
 }
 
-sub MATH{
+sub CHARTYPE::MATH{
     '^\x{2200}-\x{22FF}';
 }
 
-sub PUNCTUATION{
+sub CHARTYPE::PUNCTUATION{
     '^\x{2000}-\x{206F}';
 }
 
 1;
 
-__END__
+::END::
 
 =head1 NAME
 

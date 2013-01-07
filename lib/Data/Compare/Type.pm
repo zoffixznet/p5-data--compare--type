@@ -117,7 +117,7 @@ sub _check{
                 
                 my $range = '';
                 for my $chars_name(@allow_chars){
-                    my $code = $self->can($chars_name);
+                    my $code = $self->can("CHARTYPE::$chars_name");
                     die NO_SUCH_CHAR_TYPE($chars_name) unless $code;
                     $range .= $code->();
                 }
@@ -155,7 +155,7 @@ sub _check{
                             
                             my $range = '';
                             for my $chars_name(@allow_chars){
-                                my $code = $self->can($chars_name);
+                                my $code = $self->can("CHARTYPE::$chars_name");
                                 die NO_SUCH_CHAR_TYPE($chars_name) unless $code;
                                 $range .= $code->();
                             }
@@ -219,7 +219,7 @@ sub _instr{
 }
 
 1;
-__END__
+::END::
 
 =head1 NAME
 
