@@ -219,7 +219,7 @@ sub _instr{
 }
 
 1;
-::END::
+__END__
 
 =head1 NAME
 
