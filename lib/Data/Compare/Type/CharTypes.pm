@@ -109,7 +109,7 @@ L<perl>
 
 =head1 AUTHOR
 
-S2 E<lt>s2otsa@hotmail.comE<gt>
+S2 E<lt>s2otsa59@gmail.comE<gt>
 
 =head1 LICENSE AND COPYRIGHT
 
