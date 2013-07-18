@@ -27,6 +27,7 @@ sub new{
     my $class = bless {} , $_[0];
     $class->load_plugin('Data::Compare::Type::CharTypes');
     $class->load_plugin('Data::Compare::Type::Regex');
+    $class->load_plugin('Data::Compare::Type::AllowCharacter');
     $class;
 }
 
@@ -126,6 +127,11 @@ sub _check{
                     my $message = CHARS_ERROR;
                     $self->_set_error($message, $position , $name , '');
                 }
+            }elsif($rule->[0] eq 'ALLOWCHARACTER'){
+                my (undef , @allow_chars) = @$rule;
+                for(@allow_chars){
+                    $param =~ s/$param/$_/g;
+                }
             }else{
                 for(@$rule){
                     if (ref $_ eq 'ARRAY'){
@@ -163,6 +169,13 @@ sub _check{
                             if ($param =~ m/[$range]/){
                                 my $message = CHARS_ERROR;
                                 $self->_set_error($message, $position , $name , '');
+                            }
+                        }elsif($type eq 'ALLOWCHARACTER'){
+                            my (undef , @allow_chars) = @$_;
+                            for my $allow_char_method(@allow_chars){
+                                my $code = $self->can("ALLOWCHARACTER::$allow_char_method");
+                                my $replace_string = $code->();
+                                $param =~ s/$replace_string//g;
                             }
                         }else{
                             croak "Not declare type:" . $type;

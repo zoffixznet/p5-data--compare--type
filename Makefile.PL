@@ -28,6 +28,8 @@ use inc::Module::Install;
 
 all_from 'lib/Data/Compare/Type.pm';
 all_from 'lib/Data/Compare/Type/Regex.pm';
+all_from 'lib/Data/Compare/Type/CharTypes.pm';
+all_from 'lib/Data/Compare/Type/AllowCharacter.pm';
 
 test_requires 'Test::More'     => '0.88';
 test_requires 'Test::Requires' => '0.06';
