@@ -31,8 +31,9 @@ all_from 'lib/Data/Compare/Type/Regex.pm';
 all_from 'lib/Data/Compare/Type/CharTypes.pm';
 all_from 'lib/Data/Compare/Type/AllowCharacter.pm';
 
-test_requires 'Test::More'     => '0.88';
-test_requires 'Test::Requires' => '0.06';
+test_requires 'Test::More'       => '0.88';
+test_requires 'Test::Requires'   => '0.06';
+test_requires 'Hash::MultiValue' => '0.15';
 
 auto_set_repository;
 
